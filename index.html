@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conexión Wi‑Fi | Bienvenido</title>
+  <meta name="description" content="Portal de bienvenida con anuncio y directorio de servicios: restaurantes, salud y lugares para salir." />
+  <style>
+    :root{
+      --bg:#0f172a;           /* slate-900 */
+      --panel:#111827cc;      /* gray-900 w/ alpha */
+      --card:#111827;         /* gray-900 */
+      --text:#e5e7eb;         /* gray-200 */
+      --muted:#9ca3af;        /* gray-400 */
+      --accent:#60a5fa;       /* blue-400 */
+      --accent-2:#34d399;     /* emerald-400 */
+      --accent-3:#f59e0b;     /* amber-500 */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; 
+      background: radial-gradient(1200px 600px at 10% -10%, #1f2937 0%, #0b1224 60%, #050a18 100%), var(--bg);
+      color:var(--text);
+      min-height:100svh; display:flex; flex-direction:column;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{width:min(1100px, 92%); margin-inline:auto}
+    header{position:sticky; top:0; backdrop-filter: blur(10px); background:#0b122480; border-bottom:1px solid #172554; z-index:10}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:10px; align-items:center}
+    .logo{width:38px; height:38px; border-radius:12px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:var(--shadow)}
+    .brand h1{font-size:18px; margin:0}
+    .pill{padding:6px 10px; background:#0b1224; border:1px solid #1f2a44; border-radius:999px; font-size:12px; color:var(--muted)}
+
+    main{flex:1; padding:30px 0 60px}
+    .hero{display:grid; gap:16px; grid-template-columns: 1fr; text-align:center; padding:30px 0 10px}
+    .hero h2{font-size:clamp(22px, 4vw, 34px); margin:6px 0}
+    .hero p{color:var(--muted); margin:0}
+
+    .grid{display:grid; gap:18px; grid-template-columns: repeat(12, 1fr)}
+    .card{grid-column: span 12; background:linear-gradient(180deg, #0b1224 0%, #0a0f21 100%); border:1px solid #1f2a44; border-radius:var(--radius); box-shadow:var(--shadow); padding:18px}
+    .card h3{margin:0 0 8px; font-size:18px}
+    .card p{margin:0 0 12px; color:var(--muted)}
+
+    @media (min-width:720px){
+      .card{grid-column: span 4}
+    }
+
+    .links{display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:10px}
+    .btn{
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px; border-radius:12px; background:#0e162e; border:1px solid #1f2a44; 
+      cursor:pointer; transition:.2s transform, .2s background;
+      font-weight:600; text-align:center
+    }
+    .btn:hover{transform:translateY(-2px); background:#111b36}
+    .btn span{font-size:14px}
+
+    .search{margin-top:18px; display:flex; gap:10px}
+    .search input{flex:1; padding:12px 14px; border-radius:12px; border:1px solid #1f2a44; background:#0b1224; color:var(--text)}
+    .search button{padding:12px 16px; border-radius:12px; border:1px solid #1f2a44; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#06101b; font-weight:800; cursor:pointer}
+
+    footer{border-top:1px solid #1f2a44; color:#7b8499; padding:18px 0; text-align:center}
+
+    /* Modal de anuncio */
+    .modal{position:fixed; inset:0; background:radial-gradient(900px 400px at 80% -10%, #1b2a52 0%, #0b1224 50%, #050a18 100%); display:grid; place-items:center; z-index:30}
+    .ad{width:min(860px, 92%); border-radius:24px; background:linear-gradient(180deg, #091128 0%, #0b1224 100%); border:1px solid #1f2a44; box-shadow:var(--shadow); overflow:hidden}
+    .ad-media{position:relative; aspect-ratio:16/9; background:#0b1224; display:grid; place-items:center}
+    .ad-media .placeholder{
+      font-weight:800; letter-spacing:.5px; text-align:center; padding:20px; color:#9bb6ff;
+      text-shadow:0 2px 20px rgba(96,165,250,.35);
+    }
+    .timer{
+      position:absolute; top:12px; right:12px; background:#06101b; border:1px solid #1f2a44; color:#9bb6ff;
+      padding:6px 10px; border-radius:999px; font-weight:700; font-size:14px;
+    }
+    .ad-body{padding:16px}
+    .ad-cta{display:flex; gap:10px; justify-content:flex-end}
+    .ghost{background:transparent; color:#9ca3af; border:1px dashed #334155}
+    .primary{background:linear-gradient(135deg, var(--accent-3), var(--accent)); border:none; color:#0b0f1a; font-weight:800}
+    .primary[disabled]{opacity:.5; filter:grayscale(1); cursor:not-allowed}
+
+    .hidden{display:none !important}
+  </style>
+</head>
+<body>
+  <!-- Modal de anuncio 15s -->
+  <div id="adModal" class="modal" role="dialog" aria-modal="true" aria-label="Anuncio de bienvenida">
+    <div class="ad" role="document">
+      <div class="ad-media">
+        <!-- Aquí pones tu video -->
+        <video src=""C:\Users\godel garcia\Downloads\wifi linkyfi\anuncio.mp4"" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>
+        
+        <!-- Temporizador -->
+        <div id="timer" class="timer">15 s</div>
+      </div>
+      <div class="ad-body">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px">
+          <div>
+            <strong>Conectado a Wi-Fi</strong>
+            <div style="color:var(--muted); font-size:14px">Gracias por usar nuestro portal. En breve podrás navegar.</div>
+          </div>
+          <div class="ad-cta">
+            <button id="skipBtn" class="btn ghost" type="button" disabled>Omitir</button>
+            <button id="continueBtn" class="btn primary" type="button" disabled>Continuar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Portal Wi‑Fi</h1>
+      </div>
+      <div class="pill">Conexión segura</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>¡Bienvenido! ¿Qué estás buscando hoy?</h2>
+      <p>Explora restaurantes, servicios de salud y lugares para salir cerca de ti.</p>
+    </section>
+
+    <section class="grid" aria-label="Directorio de opciones">
+      <!-- Restaurantes -->
+      <article class="card" aria-labelledby="restaurantes-title">
+        <h3 id="restaurantes-title">🍽️ Restaurantes</h3>
+        <p>Descubre dónde comer bien, rápido o saludable.</p>
+        <div class="links">
+          <a class="btn" href="https://www.google.com/maps/search/restaurantes+cercanos" target="_blank" rel="noopener"><span>Restaurantes cerca</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/tacos+cerca+de+mi" target="_blank" rel="noopener"><span>Tacos</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/pizza+cerca+de+mi" target="_blank" rel="noopener"><span>Pizza</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/cafeter%C3%ADa+cerca+de+mi" target="_blank" rel="noopener"><span>Cafeterías</span></a>
+        </div>
+        <div class="search" role="search">
+          <input id="q-food" type="search" placeholder="Buscar tipo de comida (ej. sushi, mariscos)" aria-label="Buscar restaurantes" />
+          <button type="button" onclick="mapsSearch('q-food')">Buscar</button>
+        </div>
+      </article>
+
+      <!-- Medicina / Salud -->
+      <article class="card" aria-labelledby="salud-title">
+        <h3 id="salud-title">🩺 Área de medicina</h3>
+        <p>Encuentra servicios médicos y farmacias cercanas.</p>
+        <div class="links">
+          <a class="btn" href="https://www.google.com/maps/search/hospitales+cercanos" target="_blank" rel="noopener"><span>Hospitales</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/cl%C3%ADnicas+cercanas" target="_blank" rel="noopener"><span>Clínicas</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/farmacias+cercanas" target="_blank" rel="noopener"><span>Farmacias</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/dentista+cerca+de+mi" target="_blank" rel="noopener"><span>Dentistas</span></a>
+        </div>
+        <div class="search" role="search">
+          <input id="q-health" type="search" placeholder="Buscar médico, especialidad o análisis" aria-label="Buscar en salud" />
+          <button type="button" onclick="mapsSearch('q-health')">Buscar</button>
+        </div>
+      </article>
+
+      <!-- Ocio / Salir -->
+      <article class="card" aria-labelledby="ocio-title">
+        <h3 id="ocio-title">🎉 Lugares para salir</h3>
+        <p>Ideas para divertirte solo, en pareja o con amigos.</p>
+        <div class="links">
+          <a class="btn" href="https://www.google.com/maps/search/cines+cercanos" target="_blank" rel="noopener"><span>Cines</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/parques+cercanos" target="_blank" rel="noopener"><span>Parques</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/bares+cercanos" target="_blank" rel="noopener"><span>Bares</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/centros+comerciales+cercanos" target="_blank" rel="noopener"><span>Centros comerciales</span></a>
+        </div>
+        <div class="search" role="search">
+          <input id="q-fun" type="search" placeholder="Buscar actividad (ej. boliche, museo)" aria-label="Buscar lugares para salir" />
+          <button type="button" onclick="mapsSearch('q-fun')">Buscar</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Portal Wi‑Fi — Gracias por visitarnos</div>
+  </footer>
+
+  <script>
+    // ——— Lógica del anuncio de 15s ———
+    const adModal = document.getElementById('adModal');
+    const timerEl = document.getElementById('timer');
+    const continueBtn = document.getElementById('continueBtn');
+    const skipBtn = document.getElementById('skipBtn');
+
+    let remaining = 15; // segundos
+    timerEl.textContent = `${remaining} s`;
+
+    const tick = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0){
+        clearInterval(tick);
+        timerEl.textContent = 'Listo';
+        continueBtn.disabled = false;
+        skipBtn.disabled = false;
+        // Auto-cerrar después de 1s si no hay interacción
+        setTimeout(closeAd, 1000);
+      } else {
+        timerEl.textContent = `${remaining} s`;
+      }
+    }, 1000);
+
+    function closeAd(){
+      adModal.classList.add('hidden');
+    }
+    continueBtn.addEventListener('click', closeAd);
+    skipBtn.addEventListener('click', closeAd);
+
+    // ——— Búsqueda en Google Maps ———
+    function mapsSearch(inputId){
+      const q = document.getElementById(inputId).value.trim();
+      if(!q) return;
+      const url = `https://www.google.com/maps/search/${encodeURIComponent(q + ' cerca de mí')}`;
+      window.open(url, '_blank', 'noopener');
+    }
+    window.mapsSearch = mapsSearch;
+
+    // ——— Año en el pie de página ———
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+   .
+  </script>
+</body>
+</html>
