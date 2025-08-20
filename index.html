@@ -7,14 +7,14 @@
   <meta name="description" content="Portal de bienvenida con anuncio y directorio de servicios: restaurantes, salud y lugares para salir." />
   <style>
     :root{
-      --bg:#0f172a;           /* slate-900 */
-      --panel:#111827cc;      /* gray-900 w/ alpha */
-      --card:#111827;         /* gray-900 */
-      --text:#e5e7eb;         /* gray-200 */
-      --muted:#9ca3af;        /* gray-400 */
-      --accent:#60a5fa;       /* blue-400 */
-      --accent-2:#34d399;     /* emerald-400 */
-      --accent-3:#f59e0b;     /* amber-500 */
+      --bg:#0f172a;
+      --panel:#111827cc;
+      --card:#111827;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --accent:#60a5fa;
+      --accent-2:#34d399;
+      --accent-3:#f59e0b;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 18px;
     }
@@ -64,7 +64,6 @@
 
     footer{border-top:1px solid #1f2a44; color:#7b8499; padding:18px 0; text-align:center}
 
-    /* Modal de anuncio */
     .modal{position:fixed; inset:0; background:radial-gradient(900px 400px at 80% -10%, #1b2a52 0%, #0b1224 50%, #050a18 100%); display:grid; place-items:center; z-index:30}
     .ad{width:min(860px, 92%); border-radius:24px; background:linear-gradient(180deg, #091128 0%, #0b1224 100%); border:1px solid #1f2a44; box-shadow:var(--shadow); overflow:hidden}
     .ad-media{position:relative; aspect-ratio:16/9; background:#0b1224; display:grid; place-items:center}
@@ -86,14 +85,10 @@
   </style>
 </head>
 <body>
-  <!-- Modal de anuncio 15s -->
   <div id="adModal" class="modal" role="dialog" aria-modal="true" aria-label="Anuncio de bienvenida">
     <div class="ad" role="document">
       <div class="ad-media">
-        <!-- Aquí pones tu video -->
-        <video src=""video aqui"" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>
-        
-        <!-- Temporizador -->
+        <video src="" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>
         <div id="timer" class="timer">15 s</div>
       </div>
       <div class="ad-body">
@@ -111,12 +106,11 @@
     </div>
   </div>
   
-
   <header>
     <div class="container nav">
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
-        <h1>Portal Wi‑Fi</h1>
+        <h1>LinkyFi</h1>
       </div>
       <div class="pill">Conexión segura</div>
     </div>
@@ -180,17 +174,16 @@
   </main>
 
   <footer>
-    <div class="container">© <span id="year"></span> Portal Wi‑Fi — Gracias por visitarnos</div>
+    <div class="container">© <span id="year"></span> LinkyFi — Gracias por visitarnos</div>
   </footer>
 
   <script>
-    // ——— Lógica del anuncio de 15s ———
     const adModal = document.getElementById('adModal');
     const timerEl = document.getElementById('timer');
     const continueBtn = document.getElementById('continueBtn');
     const skipBtn = document.getElementById('skipBtn');
 
-    let remaining = 15; // segundos
+    let remaining = 15;
     timerEl.textContent = `${remaining} s`;
 
     const tick = setInterval(() => {
@@ -200,7 +193,6 @@
         timerEl.textContent = 'Listo';
         continueBtn.disabled = false;
         skipBtn.disabled = false;
-        // Auto-cerrar después de 1s si no hay interacción
         setTimeout(closeAd, 1000);
       } else {
         timerEl.textContent = `${remaining} s`;
@@ -213,7 +205,6 @@
     continueBtn.addEventListener('click', closeAd);
     skipBtn.addEventListener('click', closeAd);
 
-    // ——— Búsqueda en Google Maps ———
     function mapsSearch(inputId){
       const q = document.getElementById(inputId).value.trim();
       if(!q) return;
@@ -222,9 +213,8 @@
     }
     window.mapsSearch = mapsSearch;
 
-    // ——— Año en el pie de página ———
     document.getElementById('year').textContent = new Date().getFullYear();
-
   </script>
 </body>
 </html>
+
