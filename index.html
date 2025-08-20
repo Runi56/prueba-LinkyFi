@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conexión Wi-Fi | Bienvenido</title>
+  <title>Conexión Wi‑Fi | Bienvenido</title>
   <meta name="description" content="Portal de bienvenida con anuncio y directorio de servicios: restaurantes, salud y lugares para salir." />
   <style>
     :root{
@@ -68,6 +68,10 @@
     .modal{position:fixed; inset:0; background:radial-gradient(900px 400px at 80% -10%, #1b2a52 0%, #0b1224 50%, #050a18 100%); display:grid; place-items:center; z-index:30}
     .ad{width:min(860px, 92%); border-radius:24px; background:linear-gradient(180deg, #091128 0%, #0b1224 100%); border:1px solid #1f2a44; box-shadow:var(--shadow); overflow:hidden}
     .ad-media{position:relative; aspect-ratio:16/9; background:#0b1224; display:grid; place-items:center}
+    .ad-media .placeholder{
+      font-weight:800; letter-spacing:.5px; text-align:center; padding:20px; color:#9bb6ff;
+      text-shadow:0 2px 20px rgba(96,165,250,.35);
+    }
     .timer{
       position:absolute; top:12px; right:12px; background:#06101b; border:1px solid #1f2a44; color:#9bb6ff;
       padding:6px 10px; border-radius:999px; font-weight:700; font-size:14px;
@@ -86,17 +90,9 @@
   <div id="adModal" class="modal" role="dialog" aria-modal="true" aria-label="Anuncio de bienvenida">
     <div class="ad" role="document">
       <div class="ad-media">
-        <!-- Video de YouTube embebido (con API para poder pausarlo) -->
-        <iframe
-          id="adVideo"
-          src="https://www.youtube.com/embed/bvBiy9QHujE?autoplay=1&mute=1&playsinline=1&enablejsapi=1&rel=0&modestbranding=1"
-          title="Video de anuncio"
-          frameborder="0"
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-          allowfullscreen
-          style="width:100%; height:100%; border:0; object-fit:cover; border-radius:0;">
-        </iframe>
-
+        <!-- Aquí pones tu video -->
+        <video src=""video aqui"" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>
+        
         <!-- Temporizador -->
         <div id="timer" class="timer">15 s</div>
       </div>
@@ -114,12 +110,13 @@
       </div>
     </div>
   </div>
+  
 
   <header>
     <div class="container nav">
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
-        <h1>Portal Wi-Fi</h1>
+        <h1>Portal Wi‑Fi</h1>
       </div>
       <div class="pill">Conexión segura</div>
     </div>
@@ -183,73 +180,51 @@
   </main>
 
   <footer>
-    <div class="container">©️ <span id="year"></span> Portal Wi-Fi — Gracias por visitarnos</div>
+    <div class="container">© <span id="year"></span> Portal Wi‑Fi — Gracias por visitarnos</div>
   </footer>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      // ——— Lógica del anuncio de 15s ———
-      const adModal = document.getElementById('adModal');
-      const timerEl = document.getElementById('timer');
-      const continueBtn = document.getElementById('continueBtn');
-      const skipBtn = document.getElementById('skipBtn');
-      const iframe = document.getElementById('adVideo');
+    // ——— Lógica del anuncio de 15s ———
+    const adModal = document.getElementById('adModal');
+    const timerEl = document.getElementById('timer');
+    const continueBtn = document.getElementById('continueBtn');
+    const skipBtn = document.getElementById('skipBtn');
 
-      if (!adModal) return; // seguridad
+    let remaining = 15; // segundos
+    timerEl.textContent = `${remaining} s`;
 
-      let remaining = 15; // segundos
-
-      const updateTimer = () => { if (timerEl) timerEl.textContent = ${remaining} s; };
-      updateTimer();
-
-      const tick = setInterval(() => {
-        remaining -= 1;
-        if (remaining <= 0){
-          clearInterval(tick);
-          if (timerEl) timerEl.textContent = 'Listo';
-          if (continueBtn) continueBtn.disabled = false;
-          if (skipBtn) skipBtn.disabled = false;
-
-          // Auto-cerrar 1s después si no hay interacción
-          setTimeout(() => {
-            if (!adModal.classList.contains('hidden')) closeAd();
-          }, 1000);
-        } else {
-          updateTimer();
-        }
-      }, 1000);
-
-      function closeAd(){
-        adModal.classList.add('hidden');
-
-        // Pausar el video de YouTube (requiere enablejsapi=1 en el src)
-        try {
-          if (iframe && iframe.contentWindow) {
-            iframe.contentWindow.postMessage(JSON.stringify({
-              event: 'command',
-              func: 'stopVideo',
-              args: []
-            }), '*');
-          }
-        } catch (e) { /* noop */ }
+    const tick = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0){
+        clearInterval(tick);
+        timerEl.textContent = 'Listo';
+        continueBtn.disabled = false;
+        skipBtn.disabled = false;
+        // Auto-cerrar después de 1s si no hay interacción
+        setTimeout(closeAd, 1000);
+      } else {
+        timerEl.textContent = `${remaining} s`;
       }
+    }, 1000);
 
-      if (continueBtn) continueBtn.addEventListener('click', closeAd);
-      if (skipBtn)      skipBtn.addEventListener('click', closeAd);
+    function closeAd(){
+      adModal.classList.add('hidden');
+    }
+    continueBtn.addEventListener('click', closeAd);
+    skipBtn.addEventListener('click', closeAd);
 
-      // ——— Búsqueda en Google Maps ———
-      window.mapsSearch = function mapsSearch(inputId){
-        const el = document.getElementById(inputId);
-        const q = (el ? el.value : '').trim();
-        if(!q) return;
-        const url = https://www.google.com/maps/search/${encodeURIComponent(q + ' cerca de mí')};
-        window.open(url, '_blank', 'noopener');
-      };
+    // ——— Búsqueda en Google Maps ———
+    function mapsSearch(inputId){
+      const q = document.getElementById(inputId).value.trim();
+      if(!q) return;
+      const url = `https://www.google.com/maps/search/${encodeURIComponent(q + ' cerca de mí')}`;
+      window.open(url, '_blank', 'noopener');
+    }
+    window.mapsSearch = mapsSearch;
 
-      // ——— Año en el pie de página ———
-      const y = document.getElementById('year');
-      if (y) y.textContent = new Date().getFullYear();
-    });
+    // ——— Año en el pie de página ———
+    document.getElementById('year').textContent = new Date().getFullYear();
+
   </script>
 </body>
 </html>
